@@ -8,5 +8,4 @@ public class EduJournalBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(EduJournalBackendApplication.class, args);
     }
-
 }
