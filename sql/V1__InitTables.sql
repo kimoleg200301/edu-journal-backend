@@ -34,4 +34,10 @@ create table journals (
 	foreign key(subject_id) references subjects(subject_id)
 );
 
+select * from students;
+select * from edu_groups;
+select * from subjects;
+select * from list_of_subjects;
+select * from journals;
+
 select * from spring_session_attributes ssa ;

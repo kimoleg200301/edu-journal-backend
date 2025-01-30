@@ -1,6 +1,5 @@
 package org.example.edujournalbackend.student;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
