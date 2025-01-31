@@ -1,15 +1,17 @@
 package org.example.edujournalbackend.student;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class Student {
     private Long id;
     private String firstname;
     private String lastname;
-    private LocalDate birthDate;
+    private LocalDate birth_date;
     private String gender;
     private String iin;
-    private String livingAdress;
+    private String living_adress;
+    private Optional<Long> edu_group_id;
 
 //    public Students(String firstname,
 //                    String lastname,
@@ -28,17 +30,19 @@ public class Student {
     public Student(Long id,
                    String firstname,
                    String lastname,
-                   LocalDate birthDate,
+                   LocalDate birth_date,
                    String gender,
                    String iin,
-                   String livingAdress) {
+                   String living_adress,
+                   Optional<Long> edu_group_id) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.birthDate = birthDate;
+        this.birth_date = birth_date;
         this.gender = gender;
         this.iin = iin;
-        this.livingAdress = livingAdress;
+        this.living_adress = living_adress;
+        this.edu_group_id = edu_group_id;
     }
 
     public Long getId() {
@@ -66,11 +70,11 @@ public class Student {
     }
 
     public LocalDate getBirthDate() {
-        return birthDate;
+        return birth_date;
     }
 
     public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
+        this.birth_date = birthDate;
     }
 
     public String getGender() {
@@ -90,12 +94,16 @@ public class Student {
     }
 
     public String getLivingAdress() {
-        return livingAdress;
+        return living_adress;
     }
 
     public void setLivingAdress(String livingAdress) {
-        this.livingAdress = livingAdress;
+        this.living_adress = livingAdress;
     }
+
+    public Optional<Long> getEdu_group_id() { return edu_group_id; }
+
+    public void setEdu_group_id(Optional<Long> edu_group_id) { this.edu_group_id = edu_group_id; }
 
     @Override
     public String toString() {
@@ -103,10 +111,11 @@ public class Student {
                 "id=" + id +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", birthDate=" + birthDate +
+                ", birthDate=" + birth_date +
                 ", gender='" + gender + '\'' +
                 ", iin='" + iin + '\'' +
-                ", livingAdress='" + livingAdress + '\'' +
+                ", livingAdress='" + living_adress + '\'' +
+                ", edu_group_id=" + edu_group_id +
                 '}';
     }
 }

@@ -8,17 +8,18 @@ import java.util.List;
 
 @Service
 public class StudentService {
-    public List<Student> getStudents() {
-        return List.of(
-                new Student(
-                        1L,
-                        "Oleg",
-                        "Kim",
-                        LocalDate.of(2003, Month.NOVEMBER, 14),
-                        "Male",
-                        "031114000079",
-                        "Bogenbay batyr"
-                )
-        );
+    private final StudentDao studentDao;
+
+    public StudentService(StudentDao studentDao) {
+        this.studentDao = studentDao;
     }
+    public Student getStudentById(Long id) {
+        return studentDao.findById(id);
+    }
+    public List<Student> getAllStudents() {
+        return studentDao.findAll();
+    }
+//    public Student updateStudent(Student student) {
+//        return studentDao.update(student);
+//    }
 }
