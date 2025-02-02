@@ -1,9 +1,10 @@
 package org.example.edujournalbackend.student;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StudentDao {
-    Student findById(Long id);
+    Optional<Student> findById(Long id);
     List<Student> findAll();
     Boolean save(Student student);
     Boolean update(Student student);

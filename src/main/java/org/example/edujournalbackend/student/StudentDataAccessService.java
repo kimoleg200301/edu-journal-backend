@@ -1,5 +1,6 @@
 package org.example.edujournalbackend.student;
 
+import org.example.edujournalbackend.student.mapper.StudentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.relational.core.sql.SQL;
 import org.springframework.stereotype.Repository;
@@ -16,10 +17,15 @@ import java.util.Optional;
 
 @Repository
 public class StudentDataAccessService implements StudentDao {
-    private DataSource dataSource;
+    private final DataSource dataSource;
+
+    @Autowired
+    public StudentDataAccessService(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
-    public Student findById(Long student_id) {
+    public Optional<Student> findById(Long student_id) {
         String sql = "select * from students where student_id = ?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -27,16 +33,7 @@ public class StudentDataAccessService implements StudentDao {
             stmt.setLong(1, student_id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Student(
-                        rs.getLong("student_id"),
-                        rs.getString("firstname"),
-                        rs.getString("lastname"),
-                        rs.getDate("birth_date").toLocalDate(),
-                        rs.getString("gender"),
-                        rs.getString("iin"),
-                        rs.getString("living_adress"),
-                        rs.wasNull() ? Optional.empty() : Optional.of(rs.getLong("edu_group_id"))
-                );
+                return Optional.of(StudentMapper.mapStudent(rs));
             }
             else {
                 throw new RuntimeException("Студент не найден!");
@@ -56,16 +53,7 @@ public class StudentDataAccessService implements StudentDao {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                students.add(new Student(
-                        rs.getLong("student_id"),
-                        rs.getString("firstname"),
-                        rs.getString("lastname"),
-                        rs.getDate("birth_date").toLocalDate(),
-                        rs.getString("gender"),
-                        rs.getString("iin"),
-                        rs.getString("living_adress"),
-                        rs.wasNull() ? Optional.empty() : Optional.of(rs.getLong("edu_group_id"))
-                ));
+                students.add(StudentMapper.mapStudent(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -1,7 +1,5 @@
 package org.example.edujournalbackend.student;
 
-import net.minidev.json.annotate.JsonIgnore;
-
 import java.time.LocalDate;
 import java.util.Optional;
 

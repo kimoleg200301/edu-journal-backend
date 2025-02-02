@@ -27,18 +27,16 @@ create table list_of_subjects (
 );
 create table journals (
 	journal_id int primary key auto_increment,
-	subject_id int,
-	student_id int not null,
+	list_of_subjects int not null,
 	mark int check(mark between 1 and 100),
-	foreign key (student_id) references students(student_id),
-	foreign key(subject_id) references subjects(subject_id)
+	foreign key (list_of_subjects) references list_of_subjects(list_of_subjects_id)
 );
 
 select * from students;
 select * from edu_groups;
 select * from subjects;
 select * from list_of_subjects;
-select * from journals;
+select * from journals; /* лучше закинуть туда ид list_of_subjects и удалить subject_id и student_id */
 
 drop table students;
 drop table edu_groups;

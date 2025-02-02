@@ -1,11 +1,14 @@
 package org.example.edujournalbackend.group;
 
+import org.example.edujournalbackend.student.Student;
+import org.example.edujournalbackend.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/groups")
@@ -17,7 +20,7 @@ public class GroupController {
         this.groupService = groupService;
     }
     @GetMapping("/info_group")
-    public Group getGroup(@RequestParam Long edu_group_id) {
+    public Optional<Group> getGroup(@RequestParam Long edu_group_id) {
         return groupService.findByGroupId(edu_group_id);
     }
     @GetMapping("/")
@@ -52,6 +55,40 @@ public class GroupController {
         }
         else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Группа не удалена!");
+        }
+    }
+    @GetMapping("/unadded_students")
+    public List<Student> findAllUnaddedStudentsByGroups() {
+        return groupService.findAllUnaddedStudentsByGroups();
+    }
+    @PutMapping("/add_unadded_students_in_group")
+    public ResponseEntity<String> addUnaddedStudentsInGroup(@RequestBody List<Student> students, @RequestParam Long edu_group_id) {
+        boolean isAddedUnaddedStudents = groupService.addUnaddedStudentsInGroup(students, edu_group_id);
+        if (isAddedUnaddedStudents) {
+            return ResponseEntity.ok("Студенты добавлены в группу!");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Студенты не добавлены в группу!");
+        }
+    }
+    @PutMapping("/delete_student_from_group")
+    public ResponseEntity<String> deleteStudentFromGroup(@RequestParam Long student_id) {
+        boolean isDeletedStudentFromGroup = groupService.deleteStudentFromGroup(student_id);
+        if (isDeletedStudentFromGroup) {
+            return ResponseEntity.ok("Студент удален из группы!");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Студент не удален из группы!");
+        }
+    }
+    @PutMapping("/add_subjects")
+    public ResponseEntity<String> addSubjectsInGroup(@RequestBody List<Subject> subject, @RequestParam Long edu_group_id) {
+        boolean isAddedSubjectsInGroup = groupService.addSubjectsInGroup(subject, edu_group_id);
+        if (isAddedSubjectsInGroup) {
+            return ResponseEntity.ok("Предметы был добавлен в группу!");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Предмет не был добавлен в группу!");
         }
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubjectService {
@@ -18,7 +19,7 @@ public class SubjectService {
         return subjectDao.findAllSubjects();
     }
 
-    public Subject getBySubjectId(Long subject_id) {
+    public Optional<Subject> getBySubjectId(Long subject_id) {
         return subjectDao.findBySubjectId(subject_id);
     }
 

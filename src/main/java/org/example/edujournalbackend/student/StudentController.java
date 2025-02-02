@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.image.RescaleOp;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/students")
@@ -18,7 +18,7 @@ public class StudentController {
         this.studentService = studentService;
     }
     @GetMapping("/info_student") // для отображения лк студента
-    public Student getStudent(@RequestParam Long student_id) {
+    public Optional<Student> getStudent(@RequestParam Long student_id) {
         return studentService.getStudentById(student_id);
     }
     @GetMapping("/") // для отображения списка студентов

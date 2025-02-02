@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -13,7 +14,7 @@ public class StudentService {
     public StudentService(StudentDao studentDao) {
         this.studentDao = studentDao;
     }
-    public Student getStudentById(Long student_id) {
+    public Optional<Student> getStudentById(Long student_id) {
         return studentDao.findById(student_id);
     }
     public List<Student> getAllStudents() {

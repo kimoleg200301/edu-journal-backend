@@ -5,16 +5,19 @@ import java.time.LocalDate;
 public class Group {
     public Long edu_group_id;
     public String name;
+    public LocalDate created;
 
     public Group() {}
 
     public Group(Long edu_group_id, String name, LocalDate created) {
         this.edu_group_id = edu_group_id;
         this.name = name;
+        this.created = created;
     }
 
     public Group(String name, LocalDate created) {
         this.name = name;
+        this.created = created;
     }
 
     public Long getEdu_group_id() {
@@ -33,12 +36,12 @@ public class Group {
         this.name = name;
     }
 
-
     @Override
     public String toString() {
         return "Group{" +
                 "edu_group_id=" + edu_group_id +
                 ", name='" + name + '\'' +
+                ", created=" + created +
                 '}';
     }
 }

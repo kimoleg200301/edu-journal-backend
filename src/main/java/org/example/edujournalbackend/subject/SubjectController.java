@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/subjects")
@@ -23,7 +24,7 @@ public class SubjectController {
     }
 
     @GetMapping("/info_subject")
-    public Subject getSubject(@RequestParam Long subject_id) {
+    public Optional<Subject> getSubject(@RequestParam Long subject_id) {
         return subjectService.getBySubjectId(subject_id);
     }
 

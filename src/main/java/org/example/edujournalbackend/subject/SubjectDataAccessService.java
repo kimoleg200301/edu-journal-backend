@@ -11,13 +11,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class SubjectDataAccessService implements SubjectDao {
-    private DataSource dataSource;
+    private final DataSource dataSource;
+
+    @Autowired
+    public SubjectDataAccessService(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
-    public Subject findBySubjectId(Long subject_id) {
+    public Optional<Subject> findBySubjectId(Long subject_id) {
         String sql = "select * from subjects where subject_id = ?";
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -25,12 +31,12 @@ public class SubjectDataAccessService implements SubjectDao {
             stmt.setLong(1, subject_id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Subject(
+                return Optional.of(new Subject(
                         rs.getLong("subject_id"),
                         rs.getString("name"),
                         rs.getString("subject_code"),
                         rs.getInt("credits")
-                );
+                ));
             }
             else {
                 throw new RuntimeException("Предмет не найден!");
