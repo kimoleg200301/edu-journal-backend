@@ -1,10 +1,12 @@
 package org.example.edujournalbackend.student;
 
+import net.minidev.json.annotate.JsonIgnore;
+
 import java.time.LocalDate;
 import java.util.Optional;
 
 public class Student {
-    private Long id;
+    private Long student_id;
     private String firstname;
     private String lastname;
     private LocalDate birth_date;
@@ -13,29 +15,14 @@ public class Student {
     private String living_adress;
     private Optional<Long> edu_group_id;
 
-//    public Students(String firstname,
-//                    String lastname,
-//                    LocalDate birthDate,
-//                    String gender,
-//                    String iin,
-//                    String livingAdress) {
-//        this.firstname = firstname;
-//        this.lastname = lastname;
-//        this.birthDate = birthDate;
-//        this.gender = gender;
-//        this.iin = iin;
-//        this.livingAdress = livingAdress;
-//    }
-
-    public Student(Long id,
-                   String firstname,
-                   String lastname,
-                   LocalDate birth_date,
-                   String gender,
-                   String iin,
-                   String living_adress,
-                   Optional<Long> edu_group_id) {
-        this.id = id;
+    public Student() {}
+    public Student(String firstname,
+                    String lastname,
+                    LocalDate birth_date,
+                    String gender,
+                    String iin,
+                    String living_adress,
+                    Optional<Long> edu_group_id) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.birth_date = birth_date;
@@ -45,12 +32,30 @@ public class Student {
         this.edu_group_id = edu_group_id;
     }
 
-    public Long getId() {
-        return id;
+    public Student(Long student_id,
+                   String firstname,
+                   String lastname,
+                   LocalDate birth_date,
+                   String gender,
+                   String iin,
+                   String living_adress,
+                   Optional<Long> edu_group_id) {
+        this.student_id = student_id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.birth_date = birth_date;
+        this.gender = gender;
+        this.iin = iin;
+        this.living_adress = living_adress;
+        this.edu_group_id = edu_group_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getStudent_id() {
+        return student_id;
+    }
+
+    public void setStudent_id(Long student_id) {
+        this.student_id = student_id;
     }
 
     public String getFirstname() {
@@ -69,12 +74,12 @@ public class Student {
         this.lastname = lastname;
     }
 
-    public LocalDate getBirthDate() {
+    public LocalDate getBirth_date() {
         return birth_date;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birth_date = birthDate;
+    public void setBirth_date(LocalDate birth_date) {
+        this.birth_date = birth_date;
     }
 
     public String getGender() {
@@ -93,12 +98,12 @@ public class Student {
         this.iin = iin;
     }
 
-    public String getLivingAdress() {
+    public String getLiving_adress() {
         return living_adress;
     }
 
-    public void setLivingAdress(String livingAdress) {
-        this.living_adress = livingAdress;
+    public void setLiving_adress(String living_adress) {
+        this.living_adress = living_adress;
     }
 
     public Optional<Long> getEdu_group_id() { return edu_group_id; }
@@ -108,13 +113,13 @@ public class Student {
     @Override
     public String toString() {
         return "Students{" +
-                "id=" + id +
+                "student_id=" + student_id +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", birthDate=" + birth_date +
+                ", birth_date=" + birth_date +
                 ", gender='" + gender + '\'' +
                 ", iin='" + iin + '\'' +
-                ", livingAdress='" + living_adress + '\'' +
+                ", living_adress='" + living_adress + '\'' +
                 ", edu_group_id=" + edu_group_id +
                 '}';
     }
