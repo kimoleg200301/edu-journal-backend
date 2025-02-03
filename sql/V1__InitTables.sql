@@ -27,9 +27,10 @@ create table list_of_subjects (
 );
 create table journals (
 	journal_id int primary key auto_increment,
-	list_of_subjects int not null,
+	list_of_subjects_id int not null,
+	student_id int not null,
 	mark int check(mark between 1 and 100),
-	foreign key (list_of_subjects) references list_of_subjects(list_of_subjects_id)
+	foreign key (list_of_subjects_id) references list_of_subjects(list_of_subjects_id)
 );
 
 select * from students;
