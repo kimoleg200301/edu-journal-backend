@@ -2,19 +2,25 @@ package org.example.edujournalbackend.journal;
 
 public class Journal {
     public Long journal_id;
-    public Long list_of_subjects;
+    public Long list_of_subjects_id;
+    public Long edu_group_id;
+    public Long student_id;
     public Integer mark;
 
     public Journal() {}
 
-    public Journal(Long journal_id, Long list_of_subjects, Integer mark) {
+    public Journal(Long journal_id, Long list_of_subjects_id, Long edu_group_id, Long student_id, Integer mark) {
         this.journal_id = journal_id;
-        this.list_of_subjects = list_of_subjects;
+        this.list_of_subjects_id = list_of_subjects_id;
+        this.edu_group_id = edu_group_id;
+        this.student_id = student_id;
         this.mark = mark;
     }
 
-    public Journal(Long list_of_subjects, Integer mark) {
-        this.list_of_subjects = list_of_subjects;
+    public Journal(Long list_of_subjects_id, Long edu_group_id, Long student_id, Integer mark) {
+        this.list_of_subjects_id = list_of_subjects_id;
+        this.edu_group_id = edu_group_id;
+        this.student_id = student_id;
         this.mark = mark;
     }
 
@@ -26,12 +32,28 @@ public class Journal {
         this.journal_id = journal_id;
     }
 
-    public Long getList_of_subjects() {
-        return list_of_subjects;
+    public Long getList_of_subjects_id() {
+        return list_of_subjects_id;
     }
 
-    public void setList_of_subjects(Long list_of_subjects) {
-        this.list_of_subjects = list_of_subjects;
+    public void setList_of_subjects(Long list_of_subjects_id) {
+        this.list_of_subjects_id = list_of_subjects_id;
+    }
+
+    public Long getEdu_group_id() {
+        return edu_group_id;
+    }
+
+    public void setEdu_group_id(Long edu_group_id) {
+        this.edu_group_id = edu_group_id;
+    }
+
+    public Long getStudent_id() {
+        return student_id;
+    }
+
+    public void setStudent_id(Long student_id) {
+        this.student_id = student_id;
     }
 
     public Integer getMark() {
@@ -46,7 +68,9 @@ public class Journal {
     public String toString() {
         return "Journal{" +
                 "journal_id=" + journal_id +
-                ", list_of_subjects=" + list_of_subjects +
+                ", list_of_subjects_id=" + list_of_subjects_id +
+                ", edu_group_id=" + edu_group_id +
+                ", student_id=" + student_id +
                 ", mark=" + mark +
                 '}';
     }

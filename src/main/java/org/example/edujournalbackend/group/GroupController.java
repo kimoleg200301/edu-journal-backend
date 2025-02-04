@@ -81,14 +81,28 @@ public class GroupController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Студент не удален из группы!");
         }
     }
-    @PutMapping("/add_subjects")
-    public ResponseEntity<String> addSubjectsInGroup(@RequestBody List<Subject> subject, @RequestParam Long edu_group_id) {
-        boolean isAddedSubjectsInGroup = groupService.addSubjectsInGroup(subject, edu_group_id);
+    @PutMapping("/add_subjects_in_group")
+    public ResponseEntity<String> addSubjectsInGroup(@RequestBody List<Subject> subjects, @RequestParam Long edu_group_id) {
+        boolean isAddedSubjectsInGroup = groupService.addSubjectsInGroup(subjects, edu_group_id);
         if (isAddedSubjectsInGroup) {
             return ResponseEntity.ok("Предметы был добавлен в группу!");
         }
         else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Предмет не был добавлен в группу!");
+        }
+    }
+    @GetMapping("/find_subjects_in_group")
+    public List<Subject> findAddedSubjectsInGroup(@RequestParam Long edu_group_id) {
+        return groupService.findAddedSubjectsInGroup(edu_group_id);
+    }
+    @DeleteMapping("/delete_subject_from_group")
+    public ResponseEntity<String> deleteAddedSubjectFromGroup(Long edu_group_id, Long subject_id) {
+        boolean isDeletedSubjectsfromGroup = groupService.deleteAddedSubjectFromGroup(edu_group_id, subject_id);
+        if (isDeletedSubjectsfromGroup) {
+            return ResponseEntity.ok("Предмет был удален из группы!");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Предмет небыл удален из группы!");
         }
     }
 }

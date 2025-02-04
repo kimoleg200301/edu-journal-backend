@@ -40,7 +40,13 @@ public class GroupService {
     public Boolean deleteStudentFromGroup(Long student_id) {
         return groupDao.deleteStudentFromGroup(student_id);
     }
-    public Boolean addSubjectsInGroup(List<Subject> subject, Long edu_group_id) {
-        return groupDao.addSubjectsInGroup(subject, edu_group_id);
+    public Boolean addSubjectsInGroup(List<Subject> subjects, Long edu_group_id) {
+        return groupDao.addSubjectsInGroup(subjects, edu_group_id);
+    }
+    public List<Subject> findAddedSubjectsInGroup(Long edu_group_id) {
+        return groupDao.findAddedSubjectsInGroup(edu_group_id);
+    }
+    public Boolean deleteAddedSubjectFromGroup(Long edu_group_id, Long subject_id) {
+        return groupDao.deleteAddedSubjectFromGroup(edu_group_id, subject_id);
     }
 }

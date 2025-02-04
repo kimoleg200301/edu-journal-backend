@@ -172,11 +172,50 @@ public class GroupDataAccessService implements GroupDao {
                 stmt.setLong(2, subject.getSubject_id());
                 stmt.addBatch();
             }
-            int[] subjectsIsAdded = stmt.executeBatch();
-            return subjectsIsAdded[0] > 0;
+            int[] subjectsAdded = stmt.executeBatch();
+            return subjectsAdded[0] > 0;
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка при добавлении предметов в группу", e);
         }
+    }
+    @Override
+    public List<Subject> findAddedSubjectsInGroup(Long edu_group_id) {
+        List<Subject> addedSubjects = new ArrayList<>();
+        String sql = "select * from list_of_subjects where edu_group_id = ?";
 
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            stmt.setLong(1, edu_group_id);
+
+            while (rs.next()) {
+                addedSubjects.add(new Subject(
+                        rs.getLong("subject_id"),
+                        rs.getString("name"),
+                        rs.getString("subject_code"),
+                        rs.getInt("credits")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return addedSubjects;
+    }
+    @Override
+    public Boolean deleteAddedSubjectFromGroup(Long edu_group_id, Long subject_id) {
+        String sql = "delete from list_of_subjects where edu_group_id = ? and subject_id = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, edu_group_id);
+            stmt.setLong(2, subject_id);
+
+            int subjectDeleted = stmt.executeUpdate();
+            return subjectDeleted > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка при добавлении предметов в группу", e);
+        }
     }
 }

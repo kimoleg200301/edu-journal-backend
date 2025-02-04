@@ -16,6 +16,8 @@ public interface GroupDao {
     Boolean addUnaddedStudentsInGroup(List<Student> students, Long edu_group_id); // 1.1
     Boolean deleteStudentFromGroup(Long edu_group_id); // 2
     Boolean addSubjectsInGroup(List<Subject> subject, Long edu_group_id); // 3
+    List<Subject> findAddedSubjectsInGroup(Long edu_group_id); // 4
+    Boolean deleteAddedSubjectFromGroup(Long edu_group_id, Long subject_id); // 5
 
     // 1.   отобразить список не добавленных студентов в группы
     // 1.1. добавить не добавленных студентов в группы
