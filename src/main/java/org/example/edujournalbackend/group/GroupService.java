@@ -37,6 +37,12 @@ public class GroupService {
     public Boolean addUnaddedStudentsInGroup(List<Student> students, Long edu_group_id) {
         return groupDao.addUnaddedStudentsInGroup(students, edu_group_id);
     }
+    public List<Student> findAllAddedStudentsByGroups() {
+        return groupDao.findAllAddedStudentsByGroups();
+    }
+    public List<Student> findAddedStudentsByGroupId(Long edu_group_id) {
+        return groupDao.findAddedStudentsByGroupId(edu_group_id);
+    }
     public Boolean deleteStudentFromGroup(Long student_id) {
         return groupDao.deleteStudentFromGroup(student_id);
     }

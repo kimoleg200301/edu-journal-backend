@@ -9,14 +9,13 @@ import java.util.List;
 public class JournalService {
     private final JournalDao journalDao;
 
-    @Autowired
     public JournalService(JournalDao journalDao) {
         this.journalDao = journalDao;
     }
-    public Boolean setMarks (List<Journal> journals) {
-        return journalDao.setMarks(journals);
+    public Boolean setMarks (List<Journal> journals, Long edu_group_id, Long subject_id) {
+        return journalDao.setMarks(journals, edu_group_id, subject_id);
     }
-    public Boolean deleteMarks (List<Journal> journals) {
-        return journalDao.deleteMarks(journals);
+    public Boolean deleteMarks (List<Journal> journals, Long edu_group_id, Long subject_id) {
+        return journalDao.deleteMarks(journals, edu_group_id, subject_id);
     }
 }

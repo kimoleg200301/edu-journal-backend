@@ -2,24 +2,21 @@ package org.example.edujournalbackend.journal;
 
 public class Journal {
     public Long journal_id;
-    public Long list_of_subjects_id;
-    public Long edu_group_id;
+    public Long list_of_subject_id;
     public Long student_id;
     public Integer mark;
 
     public Journal() {}
 
-    public Journal(Long journal_id, Long list_of_subjects_id, Long edu_group_id, Long student_id, Integer mark) {
+    public Journal(Long journal_id, Long list_of_subject_id, Long student_id, Integer mark) {
         this.journal_id = journal_id;
-        this.list_of_subjects_id = list_of_subjects_id;
-        this.edu_group_id = edu_group_id;
+        this.list_of_subject_id = list_of_subject_id;
         this.student_id = student_id;
         this.mark = mark;
     }
 
-    public Journal(Long list_of_subjects_id, Long edu_group_id, Long student_id, Integer mark) {
-        this.list_of_subjects_id = list_of_subjects_id;
-        this.edu_group_id = edu_group_id;
+    public Journal(Long list_of_subject_id, Long student_id, Integer mark) {
+        this.list_of_subject_id = list_of_subject_id;
         this.student_id = student_id;
         this.mark = mark;
     }
@@ -32,20 +29,12 @@ public class Journal {
         this.journal_id = journal_id;
     }
 
-    public Long getList_of_subjects_id() {
-        return list_of_subjects_id;
+    public Long getList_of_subject_id() {
+        return list_of_subject_id;
     }
 
-    public void setList_of_subjects(Long list_of_subjects_id) {
-        this.list_of_subjects_id = list_of_subjects_id;
-    }
-
-    public Long getEdu_group_id() {
-        return edu_group_id;
-    }
-
-    public void setEdu_group_id(Long edu_group_id) {
-        this.edu_group_id = edu_group_id;
+    public void setList_of_subject_id(Long list_of_subject_id) {
+        this.list_of_subject_id = list_of_subject_id;
     }
 
     public Long getStudent_id() {
@@ -68,8 +57,7 @@ public class Journal {
     public String toString() {
         return "Journal{" +
                 "journal_id=" + journal_id +
-                ", list_of_subjects_id=" + list_of_subjects_id +
-                ", edu_group_id=" + edu_group_id +
+                ", list_of_subject_id=" + list_of_subject_id +
                 ", student_id=" + student_id +
                 ", mark=" + mark +
                 '}';

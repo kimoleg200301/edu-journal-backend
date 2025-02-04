@@ -57,7 +57,7 @@ public class GroupController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Группа не удалена!");
         }
     }
-    @GetMapping("/unadded_students")
+    @GetMapping("/unadded_students_by_groups")
     public List<Student> findAllUnaddedStudentsByGroups() {
         return groupService.findAllUnaddedStudentsByGroups();
     }
@@ -70,6 +70,14 @@ public class GroupController {
         else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Студенты не добавлены в группу!");
         }
+    }
+    @GetMapping("/added_students_by_groups")
+    public List<Student> findAllAddedStudentsByGroups() {
+        return groupService.findAllAddedStudentsByGroups();
+    }
+    @GetMapping("/added_students_by_group_id")
+    public List<Student> findAddedStudentsByGroupId(@RequestParam Long edu_group_id) {
+        return groupService.findAddedStudentsByGroupId(edu_group_id);
     }
     @PutMapping("/delete_student_from_group")
     public ResponseEntity<String> deleteStudentFromGroup(@RequestParam Long student_id) {
@@ -96,13 +104,13 @@ public class GroupController {
         return groupService.findAddedSubjectsInGroup(edu_group_id);
     }
     @DeleteMapping("/delete_subject_from_group")
-    public ResponseEntity<String> deleteAddedSubjectFromGroup(Long edu_group_id, Long subject_id) {
+    public ResponseEntity<String> deleteAddedSubjectFromGroup(@RequestParam Long edu_group_id, @RequestParam Long subject_id) {
         boolean isDeletedSubjectsfromGroup = groupService.deleteAddedSubjectFromGroup(edu_group_id, subject_id);
         if (isDeletedSubjectsfromGroup) {
             return ResponseEntity.ok("Предмет был удален из группы!");
         }
         else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Предмет небыл удален из группы!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Предмет не был удален из группы!");
         }
     }
 }

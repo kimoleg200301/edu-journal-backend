@@ -3,12 +3,10 @@ package org.example.edujournalbackend.journal;
 import java.util.List;
 
 public interface JournalDao {
-    Boolean setMarks (List<Journal> journal);
-    Boolean deleteMarks (List<Journal> journal);
+    Boolean setMarks (List<Journal> journals, Long edu_group_id, Long subject_id); // 1
+    Boolean deleteMarks (List<Journal> journals, Long edu_group_id, Long subject_id);
 
-    // при создании записи в таблицу list_of_subjects взять ИД edu_group_id и в таблицу journal внести ИД list_of_subjects_id
-    // при добавлении студента в группу добавлять в таблицу journal
-    // 1. на странице выставления оценок будут отображены список обучающихся.
-    //    Будут ИД group_id, subject_id, student_id выбранных.
-    //    При добавлении/изменении оценки в журнале
+    // 1. сначала получить ид группы, и по группе найти предмет, который выбрал пользователь (по параметрам).
+    //    Далее благодаря двум параметрам найти один ид списка предметов (list_of_subjects) и в журнале (journal) в json указать список студента и оценку.
+    //    Обновлять оценки с условием, если уже найден студент
 }

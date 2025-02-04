@@ -146,6 +146,42 @@ public class GroupDataAccessService implements GroupDao {
         }
     }
     @Override
+    public List<Student> findAllAddedStudentsByGroups() {
+        List<Student> addedStudents = new ArrayList<>();
+        String sql = "select * from students where edu_group_id is not null";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                addedStudents.add(StudentMapper.mapStudent(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return addedStudents;
+    }
+    @Override
+    public List<Student> findAddedStudentsByGroupId(Long edu_group_id) {
+        List<Student> addedStudentsByGroupId = new ArrayList<>();
+        String sql = "select * from students where edu_group_id = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, edu_group_id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                addedStudentsByGroupId.add(StudentMapper.mapStudent(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return addedStudentsByGroupId;
+    }
+    @Override
     public Boolean deleteStudentFromGroup(Long student_id) {
         String sql = "update students set edu_group_id = null where student_id = ?";
 
@@ -181,13 +217,18 @@ public class GroupDataAccessService implements GroupDao {
     @Override
     public List<Subject> findAddedSubjectsInGroup(Long edu_group_id) {
         List<Subject> addedSubjects = new ArrayList<>();
-        String sql = "select * from list_of_subjects where edu_group_id = ?";
+        String sql = """
+            SELECT s.subject_id, s.name, s.subject_code, s.credits
+            FROM subjects s
+            JOIN list_of_subjects ls ON s.subject_id = ls.subject_id
+            WHERE ls.edu_group_id = ?
+        """;
 
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, edu_group_id);
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 addedSubjects.add(new Subject(
