@@ -16,7 +16,6 @@ import java.util.Optional;
 public class StudentDataAccessService implements StudentDao {
     private final DataSource dataSource;
 
-    @Autowired
     public StudentDataAccessService(DataSource dataSource) {
         this.dataSource = dataSource;
     }

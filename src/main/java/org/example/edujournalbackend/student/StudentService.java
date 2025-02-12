@@ -10,10 +10,10 @@ import java.util.Optional;
 public class StudentService {
     private final StudentDao studentDao;
 
-    @Autowired
     public StudentService(StudentDao studentDao) {
         this.studentDao = studentDao;
     }
+
     public Optional<Student> getStudentById(Long student_id) {
         return studentDao.findById(student_id);
     }

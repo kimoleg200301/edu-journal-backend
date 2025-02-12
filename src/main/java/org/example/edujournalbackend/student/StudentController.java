@@ -13,10 +13,10 @@ import java.util.Optional;
 public class StudentController {
     private final StudentService studentService;
 
-    @Autowired
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
+
     @GetMapping("/info_student") // для отображения лк студента
     public Optional<Student> getStudent(@RequestParam Long student_id) {
         return studentService.getStudentById(student_id);
