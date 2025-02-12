@@ -6,10 +6,7 @@ import org.springframework.data.relational.core.sql.SQL;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +70,7 @@ public class StudentDataAccessService implements StudentDao {
             stmt.setString(4, student.getGender());
             stmt.setString(5, student.getIin());
             stmt.setString(6, student.getLiving_adress());
-            stmt.setString(7, student.getEdu_group_id().toString());
+            stmt.setLong(7, student.getEdu_group_id().orElse(0L));
 
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
