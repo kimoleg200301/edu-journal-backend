@@ -1,13 +1,10 @@
 package org.example.edujournalbackend.student;
 
 import org.example.edujournalbackend.student.mapper.StudentMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.SQL;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -83,6 +80,7 @@ public class StudentDataAccessService implements StudentDao {
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
+            System.out.println(student.getStudent_id());
 
             stmt.setString(1,student.getFirstname());
             stmt.setString(2, student.getLastname());

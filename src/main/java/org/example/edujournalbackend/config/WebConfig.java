@@ -15,6 +15,7 @@ public class WebConfig {
                 registry.addMapping("/api/v1/**")
                         .allowedOrigins("http://localhost:4200")
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedHeaders("*")
                         .allowCredentials(true);
             }
         };
