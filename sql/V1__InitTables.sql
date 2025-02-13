@@ -6,7 +6,8 @@ create table students (
 	gender varchar(100) not null,
 	IIN varchar(12),
 	living_adress varchar(150),
-	edu_group_id int
+	edu_group_id int,
+	foreign key(edu_group_id) references edu_groups(edu_group_id) on delete set null
 );
 create table edu_groups (
 	edu_group_id int primary key auto_increment,
@@ -23,13 +24,14 @@ create table list_of_subjects (
 	list_of_subject_id int primary key auto_increment,
 	edu_group_id int not null,
 	subject_id int not null,
-	foreign key(edu_group_id) references edu_groups(edu_group_id)
+	foreign key(edu_group_id) references edu_groups(edu_group_id) on delete cascade
 );
 create table journals (
 	journal_id int primary key auto_increment,
 	list_of_subject_id int not null,
 	student_id int not null,
 	mark int check(mark between 1 and 100),
+	date_for date not null,
 	foreign key (list_of_subject_id) references list_of_subjects(list_of_subject_id),
 	unique index idx_student_subject (list_of_subject_id, student_id)
 );
@@ -40,12 +42,19 @@ select * from subjects;
 select * from list_of_subjects;
 select * from journals; /* лучше закинуть туда ид list_of_subjects и удалить subject_id и student_id */
 
-select * from subjects where edu_group_id = 1;
+select s.subject_id,
+	s.name,
+	s.subject_code,
+	s.credits from subjects s
+inner join list_of_subjects los on s.subject_id = los.subject_id where los.edu_group_id = 1; /* запрос на добавленных предметов */
 
-            SELECT s.subject_id, s.name, s.subject_code, s.credits
-            FROM subjects s
-            JOIN list_of_subjects ls ON s.subject_id = ls.subject_id
-            WHERE ls.edu_group_id = 1;
+select s.subject_id,
+	s.name,
+	s.subject_code,
+	s.credits from subjects s
+left join list_of_subjects los on s.subject_id = los.subject_id and los.edu_group_id = 1 where los.subject_id is null; /* запрос на не добавленных предметов */
+
+UPDATE students SET edu_group_id = NULL WHERE student_id = (SELECT student_id FROM students WHERE )
 
 DELETE FROM journals WHERE list_of_subject_id = (select list_of_subject_id from list_of_subjects where edu_group_id = 1 AND subject_id = 3) and student_id = 18;
            

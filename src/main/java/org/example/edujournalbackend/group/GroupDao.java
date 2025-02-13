@@ -17,16 +17,18 @@ public interface GroupDao {
     List<Student> findAllAddedStudentsByGroups(); // 1.1.1
     List<Student> findAddedStudentsByGroupId(Long edu_group_id); // 1.1.2
     Boolean deleteStudentFromGroup(Long edu_group_id); // 2
-    Boolean addSubjectsInGroup(List<Subject> subject, Long edu_group_id); // 3
-    List<Subject> findAddedSubjectsInGroup(Long edu_group_id); // 4
-    Boolean deleteAddedSubjectFromGroup(Long edu_group_id, Long subject_id); // 5
+    List<Subject> findUnaddedSubjectsInGroups(Long edu_group_id); // 3
+    Boolean addSubjectsInGroup(List<Subject> subject, Long edu_group_id); // 4
+    List<Subject> findAddedSubjectsInGroup(Long edu_group_id); // 5
+    Boolean deleteAddedSubjectFromGroup(Long edu_group_id, Long subject_id); // 6
 
-    // 1.     отобразить список не добавленных студентов в группы
+    // 1.     отобразить список всех не добавленных студентов в группы
     // 1.1.   добавить не добавленных студентов в группы
     // 1.1.1. отобразить всех добавленных студентов в группы
-    // 1.1.2. отобразить добавленных студентов в выбранную группу
+    // 1.1.2. отобразить список добавленных студентов в выбранную группу
     // 2.     удаление добавленных студентов из выбранной группы
-    // 3.     добавить функционал добавления предметов в выбранную группу
-    // 4.     отобразить список добавленных предметов в выбранную группу
-    // 5.     удалить добавленных предметов в выбранную группу
+    // 3.     отобразить не добавленных предметов в выбранную группу
+    // 4.     добавить функционал добавления предметов в выбранную группу
+    // 5.     отобразить список добавленных предметов в выбранную группу
+    // 6.     удалить добавленных предметов в выбранную группу
 }

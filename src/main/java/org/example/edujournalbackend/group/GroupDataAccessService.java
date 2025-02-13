@@ -99,6 +99,7 @@ public class GroupDataAccessService implements GroupDao {
     @Override
     public Boolean delete(Long edu_group_id) {
         String sql = "delete from edu_groups where edu_group_id = ?";
+
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -197,6 +198,36 @@ public class GroupDataAccessService implements GroupDao {
         }
     }
     @Override
+    public List<Subject> findUnaddedSubjectsInGroups(Long edu_group_id) {
+        List<Subject> unaddedSubjects = new ArrayList<>();
+        String sql = """
+                select s.subject_id,
+                	s.name,
+                	s.subject_code,
+                	s.credits from subjects s
+                left join list_of_subjects los on s.subject_id = los.subject_id and los.edu_group_id = ? where los.subject_id is null;
+                """;
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, edu_group_id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                unaddedSubjects.add(new Subject(
+                        rs.getLong("subject_id"),
+                        rs.getString("name"),
+                        rs.getString("subject_code"),
+                        rs.getInt("credits")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return unaddedSubjects;
+    }
+    @Override
     public Boolean addSubjectsInGroup(List<Subject> subjects, Long edu_group_id) {
         String sql = "insert into list_of_subjects (edu_group_id, subject_id) values (?, ?)";
 
@@ -218,10 +249,11 @@ public class GroupDataAccessService implements GroupDao {
     public List<Subject> findAddedSubjectsInGroup(Long edu_group_id) {
         List<Subject> addedSubjects = new ArrayList<>();
         String sql = """
-            SELECT s.subject_id, s.name, s.subject_code, s.credits
-            FROM subjects s
-            JOIN list_of_subjects ls ON s.subject_id = ls.subject_id
-            WHERE ls.edu_group_id = ?
+            select s.subject_id,
+                s.name,
+                s.subject_code,
+                s.credits from subjects s
+            inner join list_of_subjects los on s.subject_id = los.subject_id where los.edu_group_id = ?;
         """;
 
         try (Connection conn = dataSource.getConnection();

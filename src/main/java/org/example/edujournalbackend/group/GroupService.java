@@ -46,6 +46,9 @@ public class GroupService {
     public Boolean deleteStudentFromGroup(Long student_id) {
         return groupDao.deleteStudentFromGroup(student_id);
     }
+    public List<Subject> findUnaddedSubjectsInGroups(Long edu_group_id) {
+        return groupDao.findUnaddedSubjectsInGroups(edu_group_id);
+    }
     public Boolean addSubjectsInGroup(List<Subject> subjects, Long edu_group_id) {
         return groupDao.addSubjectsInGroup(subjects, edu_group_id);
     }

@@ -90,6 +90,10 @@ public class GroupController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Студент не удален из группы!");
         }
     }
+    @GetMapping("/unadded_subjects_by_group_id")
+    public List<Subject> findUnaddedSubjectsInGroups(@RequestParam Long edu_group_id) {
+        return groupService.findUnaddedSubjectsInGroups(edu_group_id);
+    }
     @PutMapping("/add_subjects_in_group")
     public ResponseEntity<String> addSubjectsInGroup(@RequestBody List<Subject> subjects, @RequestParam Long edu_group_id) {
         boolean isAddedSubjectsInGroup = groupService.addSubjectsInGroup(subjects, edu_group_id);
