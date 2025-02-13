@@ -54,12 +54,23 @@ select s.subject_id,
 	s.credits from subjects s
 left join list_of_subjects los on s.subject_id = los.subject_id and los.edu_group_id = 1 where los.subject_id is null; /* запрос на не добавленных предметов */
 
-UPDATE students SET edu_group_id = NULL WHERE student_id = (SELECT student_id FROM students WHERE )
+select s.firstname,
+	s.lastname,
+	j.mark,
+	los.subject_id,
+	j.date_for from students s
+left join journals j on s.student_id = j.student_id
+inner join list_of_subjects los on j.list_of_subject_id = los.list_of_subject_id
+where los.list_of_subject_id = (select list_of_subject_id from list_of_subjects where edu_group_id = 1 and subject_id = 1) and j.date_for between CONCAT("2025-01", '-01') and LAST_DAY(CONCAT("2025-01", '-01')); -- 1. Вывод студ. по выбранно группе. 2. по предмету. 3. по дате.
 
-DELETE FROM journals WHERE list_of_subject_id = (select list_of_subject_id from list_of_subjects where edu_group_id = 1 AND subject_id = 3) and student_id = 18;
+DELETE FROM journals WHERE list_of_subject_id = (select list_of_subject_id from list_of_subjects where edu_group_id = 1 AND subject_id = 1) and student_id = 18;
            
 drop table students;
 drop table edu_groups;
 drop table subjects;
 drop table list_of_subjects;
 drop table journals;
+
+
+
+

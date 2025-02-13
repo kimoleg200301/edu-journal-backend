@@ -17,6 +17,10 @@ public class JournalController {
     public JournalController(JournalService journalService) {
         this.journalService = journalService;
     }
+    @GetMapping("/find_marks")
+    public List<Journal> findJournalByMonth(@RequestParam Long edu_group_id, @RequestParam Long subject_id, @RequestParam String date) {
+        return journalService.findJournalByMonth(edu_group_id, subject_id, date);
+    }
     @PostMapping("/set_marks")
     public ResponseEntity<String> setMarks(@RequestBody List<Journal> journals, @RequestParam Long edu_group_id, @RequestParam Long subject_id) {
         boolean isUpdatedMarks = journalService.setMarks(journals, edu_group_id, subject_id);
