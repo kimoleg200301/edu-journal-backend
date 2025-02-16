@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,14 +24,22 @@ public class JournalDataAccessService implements JournalDao {
     public List<Journal> findJournalByMonth(Long edu_group_id, Long subject_id, String date) {
         List<Journal> journal = new ArrayList<>();
         String sql = """
-            select s.firstname,
-                s.lastname,
-                j.mark,
-                los.subject_id,
-                j.date_for from students s
-            left join journals j on s.student_id = j.student_id
-            inner join list_of_subjects los on j.list_of_subject_id = los.list_of_subject_id
-            where los.list_of_subject_id = (select list_of_subject_id from list_of_subjects where edu_group_id = ? and subject_id = ?) and j.date_for between CONCAT(?, '-01') and LAST_DAY(CONCAT(?, '-01'));
+                SELECT
+                    s.student_id,
+                    s.firstname,
+                    s.lastname,
+                    g.name AS group_name,
+                    subj.name AS subject_name,
+                    j.mark,
+                    j.date_for
+                FROM students s
+                inner JOIN edu_groups g ON s.edu_group_id = g.edu_group_id
+                inner JOIN list_of_subjects ls ON g.edu_group_id = ls.edu_group_id
+                inner JOIN subjects subj ON ls.subject_id = subj.subject_id
+                left JOIN journals j ON ls.list_of_subject_id = j.list_of_subject_id AND s.student_id = j.student_id
+                WHERE g.edu_group_id = ?  -- ID группы
+                  AND subj.subject_id = ?  -- ID предмета
+                ORDER BY j.date_for DESC;
                 """;
 
         try (Connection conn = dataSource.getConnection();
@@ -38,16 +47,21 @@ public class JournalDataAccessService implements JournalDao {
 
             stmt.setLong(1, edu_group_id);
             stmt.setLong(2, subject_id);
-            stmt.setString(3, date);
-            stmt.setString(4, date);
+//            stmt.setString(3, date);
+//            stmt.setString(4, date);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
+                LocalDate date_ = rs.getDate("date_for") != null ? rs.getDate("date_for").toLocalDate() : null; // Проверка на NULL
                 journal.add(new Journal(
+                        rs.getLong("student_id"),
                         rs.getString("firstname"),
                         rs.getString("lastname"),
-                        rs.getInt("mark"),
-                        rs.getDate("date_for").toLocalDate()
+                        rs.getObject("mark", Integer.class), // Может вернуть null, если mark = NULL
+                        date_,
+                        date_ != null ? date_.getYear() : 0,
+                        date_ != null ? date_.getMonthValue() : 0,
+                        date_ != null ? date_.getDayOfMonth() : 0
                 ));
             }
         } catch (SQLException e) {

@@ -10,6 +10,9 @@ public class Journal {
     public String lastname;
     public Integer mark;
     public LocalDate date_for;
+    public Integer year;
+    public Integer month;
+    public Integer day;
 
     public Journal() {
     }
@@ -22,11 +25,15 @@ public class Journal {
         this.date_for = date_for;
     }
 
-    public Journal(String firstname, String lastname, Integer mark, LocalDate date_for) {
+    public Journal(Long student_id, String firstname, String lastname, Integer mark, LocalDate date_for, Integer year, Integer month, Integer day) {
+        this.student_id = student_id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.mark = mark;
         this.date_for = date_for;
+        this.year = year;
+        this.month = month;
+        this.day = day;
     } // Для отправки оценок и их даты с ФИ студента
 
     public Long getJournal_id() {
@@ -67,6 +74,30 @@ public class Journal {
 
     public void setDate_for(LocalDate date_for) {
         this.date_for = date_for;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getMonth() {
+        return month;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
+
+    public Integer getDay() {
+        return day;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
     }
 
     @Override

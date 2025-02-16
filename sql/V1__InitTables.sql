@@ -63,6 +63,25 @@ left join journals j on s.student_id = j.student_id
 inner join list_of_subjects los on j.list_of_subject_id = los.list_of_subject_id
 where los.list_of_subject_id = (select list_of_subject_id from list_of_subjects where edu_group_id = 1 and subject_id = 1) and j.date_for between CONCAT("2025-01", '-01') and LAST_DAY(CONCAT("2025-01", '-01')); -- 1. Вывод студ. по выбранно группе. 2. по предмету. 3. по дате.
 
+SELECT 
+    s.student_id,
+    s.firstname,
+    s.lastname,
+    g.name AS group_name,
+    subj.name AS subject_name,
+    j.mark,
+    j.date_for
+FROM students s
+inner JOIN edu_groups g ON s.edu_group_id = g.edu_group_id
+inner JOIN list_of_subjects ls ON g.edu_group_id = ls.edu_group_id
+inner JOIN subjects subj ON ls.subject_id = subj.subject_id
+left JOIN journals j ON ls.list_of_subject_id = j.list_of_subject_id AND s.student_id = j.student_id
+WHERE g.edu_group_id = 1  -- ID группы
+  AND subj.subject_id = 1  -- ID предмета
+  -- and j.date_for between CONCAT("2025-01", '-01') and LAST_DAY(CONCAT("2025-01", '-01'))
+ORDER BY j.date_for DESC;
+
+
 DELETE FROM journals WHERE list_of_subject_id = (select list_of_subject_id from list_of_subjects where edu_group_id = 1 AND subject_id = 1) and student_id = 18;
            
 drop table students;
