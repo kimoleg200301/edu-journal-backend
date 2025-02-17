@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.ResponseCache;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/journals")
@@ -22,13 +24,17 @@ public class JournalController {
         return journalService.findJournalByMonth(edu_group_id, subject_id, date);
     }
     @PostMapping("/set_marks")
-    public ResponseEntity<String> setMarks(@RequestBody List<Journal> journals, @RequestParam Long edu_group_id, @RequestParam Long subject_id) {
+    public ResponseEntity<Map<String, String>> setMarks(@RequestBody List<Journal> journals, @RequestParam Long edu_group_id, @RequestParam Long subject_id) {
         boolean isUpdatedMarks = journalService.setMarks(journals, edu_group_id, subject_id);
+
+        Map<String, String> response = new HashMap<>();
+
         if (isUpdatedMarks) {
-            return ResponseEntity.ok("Оценки выставлены/обновлены!");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Оценки не выставлены/обновлены!");
+            response.put("message", "Оценки обновлены/выставлены!");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("message", "Оценки не обновлены/выставлены!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
     @DeleteMapping("/delete_marks")

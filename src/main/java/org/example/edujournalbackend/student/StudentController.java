@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -25,33 +27,45 @@ public class StudentController {
         return studentService.getAllStudents();
     }
     @PostMapping("/save_student") // для добавления студента
-    public ResponseEntity<String> saveStudent(@RequestBody Student student) {
+    public ResponseEntity<Map<String, String>> saveStudent(@RequestBody Student student) {
         boolean isSaved = studentService.saveStudent(student);
+
+        Map<String, String> response = new HashMap<>();
+
         if (isSaved) {
-            return ResponseEntity.ok("Студент сохранены!");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Студент не сохранен!");
+            response.put("message", "Студент сохранен!");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("message", "Студент не сохранен!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
     @PutMapping("/update_student") // для обновления студента
-    public ResponseEntity<String> updateStudent(@RequestBody Student student) {
+    public ResponseEntity<Map<String, String>> updateStudent(@RequestBody Student student) {
         boolean isUpdated = studentService.updateStudent(student);
+
+        Map<String, String> response = new HashMap<>();
+
         if (isUpdated) {
-            return ResponseEntity.ok("Студент обновлен!");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Студент не обновлен!");
+            response.put("message", "Студент обновлен!");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("message", "Студент не обновлен!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
     @DeleteMapping("/delete_student/{student_id}") // для удаления студента
-    public ResponseEntity<String> deleteStudent(@PathVariable Long student_id) {
+    public ResponseEntity<Map<String, String>> deleteStudent(@PathVariable Long student_id) {
         boolean isDeleted = studentService.deleteStudent(student_id);
+
+        Map<String, String> response = new HashMap<>();
+
         if (isDeleted) {
-            return ResponseEntity.ok("Студент удален!");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Студент не удален!");
+            response.put("message", "Студент удален!");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("message", "Студент не удален!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 }

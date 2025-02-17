@@ -5,13 +5,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/subjects")
 public class SubjectController {
-    private SubjectService subjectService;
+    private final SubjectService subjectService;
 
     @Autowired
     public SubjectController(SubjectService subjectService) {
@@ -29,35 +31,47 @@ public class SubjectController {
     }
 
     @PostMapping("/save_subject")
-    public ResponseEntity<String> saveSubject(@RequestBody Subject subject) {
+    public ResponseEntity<Map<String, String>> saveSubject(@RequestBody Subject subject) {
         boolean isSaved = subjectService.saveSubject(subject);
+
+        Map<String, String> response = new HashMap<>();
+
         if (isSaved) {
-            return ResponseEntity.ok("Предмет добавлен!");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Предмет не сохранен!");
+            response.put("message", "Дисциплина сохранена!");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("message", "Дисциплина не сохранена!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
     @PutMapping("/update_subject")
-    public ResponseEntity<String> updateSubject(@RequestBody Subject subject) {
+    public ResponseEntity<Map<String, String>> updateSubject(@RequestBody Subject subject) {
         boolean isUpdated = subjectService.updateSubject(subject);
+
+        Map<String, String> response = new HashMap<>();
+
         if (isUpdated) {
-            return ResponseEntity.ok("Предмет обновлен!");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Предмет не обновлен!");
+            response.put("message", "Дисциплина обновлена!");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("message", "Дисциплина обновлена!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
     @DeleteMapping("/delete_subject/{subject_id}")
-    public ResponseEntity<String> deleteSubject(@PathVariable Long subject_id) {
+    public ResponseEntity<Map<String, String>> deleteSubject(@PathVariable Long subject_id) {
         boolean isDeleted = subjectService.deleteSubject(subject_id);
+
+        Map<String, String> response = new HashMap<>();
+
         if (isDeleted) {
-            return ResponseEntity.ok("Предмет удалён!");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Предмет не удален!");
+            response.put("message", "Дисциплина удалена!");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("message", "Дисциплина не удалена!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 }
