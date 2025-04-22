@@ -1,3 +1,5 @@
+INSERT INTO edu_groups (name) VALUES ('21-03'), ('21-01'), ('20-05');
+
 INSERT INTO students (student_id, firstname, lastname, birth_date, gender, IIN, living_adress, edu_group_id) VALUES
 (1, 'Иван', 'Иванов', '2003-05-15', 'Мужской', '030515123456', 'г. Алматы, ул. Ленина, д. 10', 1),
 (2, 'Мария', 'Сидорова', '2002-08-22', 'Женский', '020822654321', 'г. Нур-Султан, пр. Абая, д. 5', 2),
@@ -61,24 +63,6 @@ INSERT INTO subjects (subject_id, name, subject_code, credits) VALUES
 (28, 'Гидравлика', 'CIV128', 5),
 (29, 'Робототехника', 'ENG129', 4),
 (30, 'Микробиология', 'BIO130', 4);
-
-insert into edu_groups (name) values ('21-03'), ('21-01'), ('20-05');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

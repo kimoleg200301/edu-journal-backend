@@ -46,8 +46,8 @@ mvn spring-boot:run
 │
 ├── src/main/resources
 │   ├── application.properties  # Конфигурация
-│   ├── InitTables.sql   # Инициализация таблиц
-│   └── InsertCounts.sql     # Начальные данные
+│   ├── V1__init_schema.sql   # Инициализация таблиц
+│   └── V2__seed_data.sql     # Начальные данные
 │
 ├── pom.xml          # Maven-конфигурация
 └── README.md        # Документация
