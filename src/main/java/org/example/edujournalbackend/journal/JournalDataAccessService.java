@@ -22,23 +22,23 @@ public class JournalDataAccessService implements JournalDao {
     public List<Journal> findJournalByMonth(Long edu_group_id, Long subject_id, String date) {
         List<Journal> journal = new ArrayList<>();
         String sql = """
-            SELECT
-              s.student_id,
-              s.firstname,
-              s.lastname,
-              g.name AS group_name,
-              subj.name AS subject_name,
-              j.mark,
-              j.date_for
-            FROM students s
-            INNER JOIN edu_groups g ON s.edu_group_id = g.edu_group_id
-            INNER JOIN list_of_subjects ls ON g.edu_group_id = ls.edu_group_id
-            INNER JOIN subjects subj ON ls.subject_id = subj.subject_id
-            LEFT JOIN journals j ON ls.list_of_subject_id = j.list_of_subject_id
-              AND s.student_id = j.student_id
-              AND j.date_for BETWEEN CONCAT(?, '-01') AND LAST_DAY(CONCAT(?, '-01'))
-            WHERE g.edu_group_id = ?  -- ID группы
-              AND subj.subject_id = ?;  -- ID предмета
+                SELECT
+                  s.student_id,
+                  s.firstname,
+                  s.lastname,
+                  g.name AS group_name,
+                  subj.name AS subject_name,
+                  j.mark,
+                  j.date_for
+                FROM students s
+                INNER JOIN edu_groups g ON s.edu_group_id = g.edu_group_id
+                INNER JOIN list_of_subjects ls ON g.edu_group_id = ls.edu_group_id
+                INNER JOIN subjects subj ON ls.subject_id = subj.subject_id
+                LEFT JOIN journals j ON ls.list_of_subject_id = j.list_of_subject_id
+                  AND s.student_id = j.student_id
+                  AND j.date_for BETWEEN CONCAT(?, '-01') AND LAST_DAY(CONCAT(?, '-01'))
+                WHERE g.edu_group_id = ?  -- ID группы
+                  AND subj.subject_id = ?;  -- ID предмета
                 """;
 //        String sql = """
 //                SELECT
