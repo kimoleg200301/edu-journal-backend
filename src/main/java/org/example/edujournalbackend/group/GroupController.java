@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -95,13 +97,18 @@ public class GroupController {
         return groupService.findUnaddedSubjectsInGroups(edu_group_id);
     }
     @PutMapping("/add_subjects_in_group")
-    public ResponseEntity<String> addSubjectsInGroup(@RequestBody List<Subject> subjects, @RequestParam Long edu_group_id) {
+    public ResponseEntity<Map<String, String>> addSubjectsInGroup(@RequestBody List<Subject> subjects, @RequestParam Long edu_group_id) {
         boolean isAddedSubjectsInGroup = groupService.addSubjectsInGroup(subjects, edu_group_id);
+
+        Map<String, String> response = new HashMap<>();
+
         if (isAddedSubjectsInGroup) {
-            return ResponseEntity.ok("Предметы был добавлен в группу!");
+            response.put("message", "Предметы были добавлены в группу!");
+            return ResponseEntity.ok(response);
         }
         else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Предмет не был добавлен в группу!");
+            response.put("error", "Предметы не были добавлены в группу!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
     @GetMapping("/added_subjects_by_group_id")

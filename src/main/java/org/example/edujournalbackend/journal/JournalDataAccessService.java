@@ -18,6 +18,7 @@ public class JournalDataAccessService implements JournalDao {
     public JournalDataAccessService(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
     @Override
     public List<Journal> findJournalByMonth(Long edu_group_id, Long subject_id, String date) {
         List<Journal> journal = new ArrayList<>();
@@ -86,6 +87,7 @@ public class JournalDataAccessService implements JournalDao {
         }
         return journal;
     }
+
     @Override
     public Boolean setMarks(List<Journal> journals, Long edu_group_id, Long subject_id) {
         String sql = """
@@ -112,6 +114,7 @@ public class JournalDataAccessService implements JournalDao {
             throw new RuntimeException("Запрос не корректен!", e);
         }
     }
+
     @Override
     public Boolean deleteMarks(List<Journal> journals, Long edu_group_id, Long subject_id) {
         String sql = "DELETE FROM journals WHERE list_of_subject_id = (select list_of_subject_id from list_of_subjects where edu_group_id = ? AND subject_id = ?) and student_id = ?";

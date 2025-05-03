@@ -22,10 +22,12 @@ public class StudentController {
     public Optional<Student> getStudent(@RequestParam Long student_id) {
         return studentService.getStudentById(student_id);
     }
+
     @GetMapping("/") // для отображения списка студентов
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
     }
+
     @PostMapping("/save_student") // для добавления студента
     public ResponseEntity<Map<String, String>> saveStudent(@RequestBody Student student) {
         boolean isSaved = studentService.saveStudent(student);
@@ -40,6 +42,7 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
     @PutMapping("/update_student") // для обновления студента
     public ResponseEntity<Map<String, String>> updateStudent(@RequestBody Student student) {
         boolean isUpdated = studentService.updateStudent(student);
@@ -54,6 +57,7 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
     @DeleteMapping("/delete_student/{student_id}") // для удаления студента
     public ResponseEntity<Map<String, String>> deleteStudent(@PathVariable Long student_id) {
         boolean isDeleted = studentService.deleteStudent(student_id);
