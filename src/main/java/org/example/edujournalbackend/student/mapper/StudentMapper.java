@@ -16,7 +16,8 @@ public class StudentMapper {
                 rs.getString("gender"),
                 rs.getString("iin"),
                 rs.getString("living_adress"),
-                rs.wasNull() ? Optional.empty() : Optional.of(rs.getLong("edu_group_id"))
+                rs.wasNull() ? Optional.empty() : Optional.of(rs.getLong("edu_group_id")),
+                "null"
         );
     }
 }

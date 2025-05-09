@@ -12,6 +12,7 @@ public class JournalService {
     public JournalService(JournalDao journalDao) {
         this.journalDao = journalDao;
     }
+
     public List<Journal> findJournalByMonth (Long edu_group_id, Long subject_id, String date) {
         return journalDao.findJournalByMonth(edu_group_id, subject_id, date);
     }

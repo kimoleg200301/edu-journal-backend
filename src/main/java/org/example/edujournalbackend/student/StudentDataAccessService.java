@@ -24,11 +24,11 @@ public class StudentDataAccessService implements StudentDao {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, student_id);
+
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return Optional.of(StudentMapper.mapStudent(rs));
-            }
-            else {
+            } else {
                 throw new RuntimeException("Студент не найден!");
             }
         } catch (SQLException e) {
@@ -53,6 +53,7 @@ public class StudentDataAccessService implements StudentDao {
         }
         return students;
     }
+
     @Override
     public Boolean save(Student student) {
         String sql = "insert into students (firstname, lastname, birth_date, gender, IIN, living_adress, edu_group_id) values (?, ?, ?, ?, ?, ?, ?)";
@@ -60,7 +61,7 @@ public class StudentDataAccessService implements StudentDao {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1,student.getFirstname());
+            stmt.setString(1, student.getFirstname());
             stmt.setString(2, student.getLastname());
             stmt.setDate(3, java.sql.Date.valueOf(student.getBirth_date()));
             stmt.setString(4, student.getGender());
@@ -74,6 +75,7 @@ public class StudentDataAccessService implements StudentDao {
             throw new RuntimeException("Ошибка при сохранении студента!", e);
         }
     }
+
     @Override
     public Boolean update(Student student) {
         String sql = "update students set firstname = ?, lastname = ?, birth_date = ?, gender = ?, IIN = ?, living_adress = ? where student_id = ?";
@@ -82,7 +84,7 @@ public class StudentDataAccessService implements StudentDao {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             System.out.println(student.getStudent_id());
 
-            stmt.setString(1,student.getFirstname());
+            stmt.setString(1, student.getFirstname());
             stmt.setString(2, student.getLastname());
             stmt.setDate(3, java.sql.Date.valueOf(student.getBirth_date()));
             stmt.setString(4, student.getGender());

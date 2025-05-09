@@ -12,6 +12,7 @@ public class Student {
     private String iin;
     private String living_adress;
     private Optional<Long> edu_group_id;
+    private String image;
 
     public Student() {}
     public Student(String firstname,
@@ -37,7 +38,8 @@ public class Student {
                    String gender,
                    String iin,
                    String living_adress,
-                   Optional<Long> edu_group_id) {
+                   Optional<Long> edu_group_id,
+                   String image) {
         this.student_id = student_id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -46,6 +48,7 @@ public class Student {
         this.iin = iin;
         this.living_adress = living_adress;
         this.edu_group_id = edu_group_id;
+        this.image = image;
     }
 
     public Long getStudent_id() {
@@ -108,9 +111,17 @@ public class Student {
 
     public void setEdu_group_id(Optional<Long> edu_group_id) { this.edu_group_id = edu_group_id; }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
-        return "Students{" +
+        return "Student{" +
                 "student_id=" + student_id +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
@@ -119,6 +130,7 @@ public class Student {
                 ", iin='" + iin + '\'' +
                 ", living_adress='" + living_adress + '\'' +
                 ", edu_group_id=" + edu_group_id +
+                ", image='" + image + '\'' +
                 '}';
     }
 }
