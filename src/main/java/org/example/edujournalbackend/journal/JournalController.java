@@ -1,5 +1,8 @@
 package org.example.edujournalbackend.journal;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +20,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/journals")
+@Tag(name = "Журнал", description = "Операции для управления оценками и сессиями")
 public class JournalController {
     private final JournalService journalService;
     private final RestTemplate restTemplate;
@@ -28,12 +32,30 @@ public class JournalController {
     }
 
     @GetMapping("/find_marks")
-    public List<Journal> findJournalByMonth(@RequestParam Long edu_group_id, @RequestParam Long subject_id, @RequestParam String date) {
+    @Operation(summary = "Оценки за месяц",
+            description = "Возвращает оценки группы по предмету за месяц (YYYY-MM)")
+    public List<Journal> findJournalByMonth(
+            @Parameter(description = "ID группы", required = true)
+            @RequestParam Long edu_group_id,
+            @Parameter(description = "ID предмета", required = true)
+            @RequestParam Long subject_id,
+            @Parameter(description = "Дата в формате YYYY-MM", required = true)
+            @RequestParam String date) {
         return journalService.findJournalByMonth(edu_group_id, subject_id, date);
     }
 
     @PostMapping("/start_session")
-    public ResponseEntity<Map<String, String>> startSession(@RequestParam Long edu_group_id, @RequestParam Long subject_id, @RequestParam String date, @RequestParam Boolean flag) {
+    @Operation(summary = "Старт/стоп сессии",
+            description = "Запускает или останавливает сессию распознавания. flag=true — старт, false — стоп")
+    public ResponseEntity<Map<String, String>> startSession(
+            @Parameter(description = "ID группы", required = true)
+            @RequestParam Long edu_group_id,
+            @Parameter(description = "ID предмета", required = true)
+            @RequestParam Long subject_id,
+            @Parameter(description = "Дата занятия (YYYY-MM-DD)", required = true)
+            @RequestParam String date,
+            @Parameter(description = "Флаг старта (true) или остановки (false)", required = true)
+            @RequestParam Boolean flag) {
 
         String flaskUrl = flag
                 ? "http://localhost:5000/start"
@@ -92,7 +114,15 @@ public class JournalController {
     }
 
     @PostMapping("/set_marks")
-    public ResponseEntity<Map<String, String>> setMarks(@RequestBody List<Journal> journals, @RequestParam Long edu_group_id, @RequestParam Long subject_id) {
+    @Operation(summary = "Выставить/обновить оценки",
+            description = "Принимает список оценок и сохраняет их для группы и предмета")
+    public ResponseEntity<Map<String, String>> setMarks(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Список оценок", required = true)
+            @RequestBody List<Journal> journals,
+            @Parameter(description = "ID группы", required = true)
+            @RequestParam Long edu_group_id,
+            @Parameter(description = "ID предмета", required = true)
+            @RequestParam Long subject_id) {
         boolean isUpdatedMarks = journalService.setMarks(journals, edu_group_id, subject_id);
 
         Map<String, String> response = new HashMap<>();
@@ -107,7 +137,15 @@ public class JournalController {
     }
 
     @DeleteMapping("/delete_marks")
-    public ResponseEntity<String> deleteMarks(@RequestBody List<Journal> journals, @RequestParam Long edu_group_id, @RequestParam Long subject_id) {
+    @Operation(summary = "Удалить оценки",
+            description = "Удаляет указанные оценки у студентов для предмета и группы")
+    public ResponseEntity<String> deleteMarks(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Список оценок для удаления", required = true)
+            @RequestBody List<Journal> journals,
+            @Parameter(description = "ID группы", required = true)
+            @RequestParam Long edu_group_id,
+            @Parameter(description = "ID предмета", required = true)
+            @RequestParam Long subject_id) {
         boolean isDeletedMarks = journalService.deleteMarks(journals, edu_group_id, subject_id);
         if (isDeletedMarks) {
             return ResponseEntity.ok("Оценки удалены!");

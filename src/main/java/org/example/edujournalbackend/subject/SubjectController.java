@@ -1,5 +1,8 @@
 package org.example.edujournalbackend.subject;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/subjects")
+@Tag(name = "Дисциплины", description = "Операции для работы с предметами")
 public class SubjectController {
     private final SubjectService subjectService;
 
@@ -21,17 +25,24 @@ public class SubjectController {
     }
 
     @GetMapping("/")
+    @Operation(summary = "Список дисциплин", description = "Возвращает список всех дисциплин")
     public List<Subject> getAllSubjects() {
         return subjectService.getAllSubjects();
     }
 
     @GetMapping("/info_subject")
-    public Optional<Subject> getSubject(@RequestParam Long subject_id) {
+    @Operation(summary = "Информация о дисциплине", description = "Возвращает информацию о дисциплине по ID")
+    public Optional<Subject> getSubject(
+            @Parameter(description = "ID дисциплины", required = true)
+            @RequestParam Long subject_id) {
         return subjectService.getBySubjectId(subject_id);
     }
 
     @PostMapping("/save_subject")
-    public ResponseEntity<Map<String, String>> saveSubject(@RequestBody Subject subject) {
+    @Operation(summary = "Создать дисциплину", description = "Создает новую дисциплину")
+    public ResponseEntity<Map<String, String>> saveSubject(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Данные дисциплины", required = true)
+            @RequestBody Subject subject) {
         boolean isSaved = subjectService.saveSubject(subject);
 
         Map<String, String> response = new HashMap<>();
@@ -46,7 +57,10 @@ public class SubjectController {
     }
 
     @PutMapping("/update_subject")
-    public ResponseEntity<Map<String, String>> updateSubject(@RequestBody Subject subject) {
+    @Operation(summary = "Обновить дисциплину", description = "Обновляет данные дисциплины")
+    public ResponseEntity<Map<String, String>> updateSubject(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Обновленные данные дисциплины", required = true)
+            @RequestBody Subject subject) {
         boolean isUpdated = subjectService.updateSubject(subject);
 
         Map<String, String> response = new HashMap<>();
@@ -61,7 +75,10 @@ public class SubjectController {
     }
 
     @DeleteMapping("/delete_subject/{subject_id}")
-    public ResponseEntity<Map<String, String>> deleteSubject(@PathVariable Long subject_id) {
+    @Operation(summary = "Удалить дисциплину", description = "Удаляет дисциплину по ID")
+    public ResponseEntity<Map<String, String>> deleteSubject(
+            @Parameter(description = "ID дисциплины", required = true)
+            @PathVariable Long subject_id) {
         boolean isDeleted = subjectService.deleteSubject(subject_id);
 
         Map<String, String> response = new HashMap<>();
