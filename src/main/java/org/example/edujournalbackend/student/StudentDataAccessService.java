@@ -78,7 +78,7 @@ public class StudentDataAccessService implements StudentDao {
 
     @Override
     public Boolean update(Student student) {
-        String sql = "update students set firstname = ?, lastname = ?, birth_date = ?, gender = ?, IIN = ?, living_adress = ? where student_id = ?";
+        String sql = "update students set firstname = ?, lastname = ?, birth_date = ?, gender = ?, IIN = ?, living_adress = ?, edu_group_id = ? where student_id = ?";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -90,7 +90,8 @@ public class StudentDataAccessService implements StudentDao {
             stmt.setString(4, student.getGender());
             stmt.setString(5, student.getIin());
             stmt.setString(6, student.getLiving_adress());
-            stmt.setLong(7, student.getStudent_id());
+            stmt.setLong(7, student.getEdu_group_id().orElse(0L));
+            stmt.setLong(8, student.getStudent_id());
 
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
